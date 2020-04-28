@@ -18,7 +18,7 @@ class Trapezoid @JvmOverloads constructor(
     }
 
     val pathForCurve = Path()
-    val cot45degree = 1
+    val cot30degree = 1.7f
 
     /**
      * Sides of trapezoid should be equal for our case
@@ -40,19 +40,19 @@ class Trapezoid @JvmOverloads constructor(
      */
     override fun onDraw(canvas: Canvas?) {
 
-        val bottomEdge = height.toFloat()
-        val endEdge = width.toFloat()
+        val trapezoidHeight = height.toFloat()
+        val trapezoidWidth = width.toFloat()
 
-        val lengthOfTop = endEdge - bottomEdge * (cot45degree + cot45degree)
-        val topLineOffset = (endEdge - lengthOfTop)/2
-        val rightCurveStart = endEdge - topLineOffset
-        val bottomLeftCurveX = topLineOffset/2
-        val topRightCurveX = rightCurveStart + (topLineOffset/2)
+        val lengthOfTop = trapezoidWidth - trapezoidHeight * (cot30degree + cot30degree)
+        val topLineOffsetStart = (trapezoidWidth - lengthOfTop)/2 //the value of x in drawing above
+        val topLineOffsetEnd = trapezoidWidth - topLineOffsetStart
+        val bottomLeftCurveX = topLineOffsetStart/2
+        val topRightCurveX = topLineOffsetEnd + (topLineOffsetStart/2)
 
-        pathForCurve.moveTo(0f, bottomEdge)
-        pathForCurve.cubicTo(bottomLeftCurveX, bottomEdge, bottomLeftCurveX, 0f, topLineOffset, 0f)
-        pathForCurve.lineTo(rightCurveStart, 0f)
-        pathForCurve.cubicTo(topRightCurveX, 0f, topRightCurveX, bottomEdge, endEdge, bottomEdge)
+        pathForCurve.moveTo(0f, trapezoidHeight)
+        pathForCurve.cubicTo(bottomLeftCurveX, trapezoidHeight, bottomLeftCurveX, 0f, topLineOffsetStart, 0f)
+        pathForCurve.lineTo(topLineOffsetEnd, 0f)
+        pathForCurve.cubicTo(topRightCurveX, 0f, topRightCurveX, trapezoidHeight, trapezoidWidth, trapezoidHeight)
         canvas?.drawPath(pathForCurve, shapePaint)
     }
 }
